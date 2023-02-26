@@ -5,82 +5,51 @@ output: html_document
 
 ### Introduction
 
-An introduction of the data and a description of the trends/books/items you are choosing to analyze (and why!)
+This dataset catalogs the monthly count of checkouts from the Seattle Public Library starting from January 2017. It includes information such as the title, author, and publication year of both the physical and digital copies of items and is updated on a monthly basis. Since the data contains information from 2017 until now, a possible trend to look out for is how much the checkout rate differed between then and now based on the usage type (whether the item is physical or digital). Additionally, I want to analyzing the checkout trends of the author F. Scott Fitzgerald. I remember reading The Great Gatsby for a class in high school so I thought it would be interesting to see how the checkouts have changed for their works. Finally, I am looking to analyze the top 5 most popular subjects. This would give some insight as to what people are interested in and how the library might focus their resources towards. 
 
 ### Summary Information
 
-Write a summary paragraph of findings that includes the 5 values calculated from your summary information R script
+```{r summary, echo = FALSE, warning = FALSE, message = FALSE}
+library(ggplot2)
+library(dplyr)
+library(stringr)
+source("summary.R")
+```
 
-These will likely be calculated using your DPLYR skills, answering questions such as:
-
-- What is the average number of checkouts for each item?
-- What is the month or year with the most/least checkouts for a book that you're interested in?
-- What is the month or year with the most/least checkouts for ebooks?
-- How has the number of print book checkouts changed over time?
-
-Feel free to calculate and report values that you find relevant.
+The most checked out item during any month from 2017-2023 is *So You Want to Talk About Race* at `r most_checkouts` checkouts. This is a lot more than expected since the average amount of checkouts throughout these years is `r avg_checkouts`. Therefore, this item is most likely an outlier in the dataset. The year with the highest average checkouts is `r avg_year` with an average of `r avg_checkouts_year`. This is about 2 checkouts higher than the overall average. Looking at the author F. Scott Fitzgerald, the total checkouts of their works is `r total_fitz`, which is surprisingly still less than the most checked out item. The Great Gatsby, one of Fitzgerald's works, had the most checkouts during the month of January in 2022, which was approximately one year ago. 
 
 ### The Dataset
 
 - Who collected/published the data?  
-- What are the parameters of the data (dates, number of checkouts, kinds of books, etc.)?
+The data was published by the Seattle Public Library
+- What are the parameters of the data (dates, number of checkouts, kinds of books, etc.)?   
+UsageClass, CheckoutType, MaterialType, CheckoutYear, CheckoutMonth, Checkouts, Title, ISBN, Creator, Subjects, Publisher, and PublicationYear
 - How was the data collected or generated?  
+For digital items, the data was collected by media vendors while the data for physical items was collected by Horizon ILS. 
 - Why was the data collected?  
+The data was collected in order to keep track of the items that were checked out and possibly provide some insight as to which titles are more popular. It can also provide information on what material the readers prefer and perhaps when certain items are in demand.   
 - What, if any, ethical questions do you need to consider when working with this data?  
-- What are possible limitations or problems with this data?   (at least 200 words)
-
+An ethical question to consider is what method(s) were used to collect the data? As a follow up, did the people give their consent in having their data collected? 
+- What are possible limitations or problems with this data?   (at least 200 words)  
+A possible limitation is that there is no way to account for lost or stolen items. The items that are no longer in circulation may result in fewer checkouts later on since the availability is lower. This would cause an inherent decrease in checkouts for that particular item which can be accidentally viewed as a trend. Conversely, the library may have increased their stock of some items so the checkouts may turn out to be higher due to the increased availability. Additionally, the ISBN for many of the items are missing. This makes it much more difficult to track the item or even make sure that it exists. Similarly, many of the authors are missing so it is possible that an item by a particular author is accidentally credited to another author if they have works of the same name. There is also no indication of what each of the checkout types represent and the material type classification may not match another item of the same type. Since the data is being taken from a variety of sources, the classification methods may be different depending on the source. Furthermore, the title names are quite inconsistent. The capitalization is sometimes different for the same or similar item and it is hard to determine whether different versions such as unabridged or recording should be used to represent the same item. 
 
 ### First Trends Over Time Chart
 
-Include a chart. Make sure to describe why you included the chart, and what patterns emerged
-
-The first chart that you will create and include will show the trend over time of your variable/topic/interest. Think carefully about what you want to communicate to your user (you may have to find relevant trends in the dataset first!). Here are some requirements to help guide your design:
-
-- Show more than one, but fewer than ~10 trends
-  - For example, two books, or 5 different mediums
-- You must have clear x and y axis labels
-- The chart needs a clear title 
-- You need a legend for your different line colors and a clear - legend title
-In your .Rmd file, make sure to describe why you included the chart, and what patterns emerged
-
-When we say "clear" or "human readable" titles and labels, that means that you should not just display the variable name.
-
-Here's an example of how to run an R script inside an RMarkdown file:
-
-``````{r, echo = FALSE, warning = FALSE, code = readLines("chart1_example.R")}
+``````{r, echo = FALSE, warning = FALSE, message = FALSE, code = readLines("chart1.R")}
 ```
+
+This line chart shows the checkouts of physical and digital items between the years of 2017 and 2023. I included this chart since it would be interesting to visualize how much these values have changed, especially since the pandemic greatly restricted the access to physical items and actually being at the library. As shown in the graph, the checkouts of physical items heavily outnumbered those of digital items in 2017. Over time, there was a gradual decrease in physical items whereas digital items saw a gradual increase. In 2020, there was a plummet in checkouts for physical items to basically 0, likely due to the severity of the pandemic as well as quarantine. Although digital items continue to see an increase, surprisingly the jump was not as significant as expected. About halfway through 2020, physical items start to increase all the way until 2022. However, the checkouts seem to be somewhat stagnant from then until now and digital items continue to outnumber that of physical item checkouts. 
 
 ### Second Trends Over Time Chart
 
-Include a chart. Make sure to describe why you included the chart, and what patterns emerged
-
-The second chart that you will create and include will show another trend over time of your variable/topic/interest. Think carefully about what you want to communicate to your user (you may have to find relevant trends in the dataset first!). Here are some requirements to help guide your design:
-
-- Show more than one, but fewer than ~10 trends
-  - For example, two books, or 5 different mediums
-- You must have clear x and y axis labels
-- The chart needs a clear title 
-- You need a legend for your different line colors and a clear - legend title
-In your .Rmd file, make sure to describe why you included the chart, and what patterns emerged
-
-When we say "clear" or "human readable" titles and labels, that means that you should not just display the variable name.
-
-Here's an example of how to run an R script inside an RMarkdown file:
-
-``````{r, echo = FALSE, code = readLines("chart2_example.R")}
+``````{r, echo = FALSE, warning = FALSE, message = FALSE, code = readLines("chart2.R")}
 ```
+
+I separated the checkouts by material to possibly see people's preferences, and also how much it correlates to the previous graph in the sense that digital items became more popular. From early to mid 2017, book checkouts were the highest compared to the rest of the material types. This value peaked at around 40 checkouts in 2017 but severely dropped by 2018. Since then, the amount of book checkouts has been drastically low which is a reflection of the physical vs digital graph where physical item checkouts heavily declined. Digital materials such as the audiobook and ebook initially had low checkout rates. When the book checkouts decreased, the audiobook checkouts increased. Strangely, the ebook version did not did not start to increase until 2021 and eventually hit two peaks in 2022. This also matches the trends seen in the previous graph where digital copies had a lot of checkouts in recent years. 
 
 ### Your Choice
 
-The last chart is up to you. It could be a line plot, scatter plot, histogram, bar plot, stacked bar plot, and more. Here are some requirements to help guide your design:
-
-- You must have clear x and y axis labels
-- The chart needs a clear title 
-- You need a legend for your different line colors and a clear legend title
-
-Here's an example of how to run an R script inside an RMarkdown file:
-
-``````{r, echo = FALSE, code = readLines("chart2_example.R")}
+``````{r, echo = FALSE, warning = FALSE, message = FALSE, code = readLines("chart3.R")}
 ```
 
-
+This bar plot of subjects is meant to show what the majority of people's interests are. From the graph, it is revealed that a common characteristic of these subjects is that they are all fiction. This is definitely quite expected amongst younger audiences, as many of them might find fiction books to be more captivating than non-fiction. The dataset also includes items of different material types, so a lot of people who borrow movies likely contribute to this group as well since many movies fall under the fictional category. Out of these 5 subjects, literature greatly outnumbers the rest with possibly 3 times as many checkouts as the second most group, which is Mystery, Suspense, Thriller. The remaining 3 groups all cover similar topics as the second group, so it likely explains why their total checkouts are fairly similar overall.  
